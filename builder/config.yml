@@ -1,0 +1,80 @@
+paths:
+  src:
+    path: "../src/"
+
+    styles:
+      all : "../src/assets/styles/**/*.styl"
+      main: "../src/assets/styles/main.styl"
+      path: "../src/assets/styles"
+
+    sprites:
+      images: 
+        all: "../src/assets/images/design/sprite/*"
+        path: "../src/assets/images/design/sprite"
+      style: "../src/assets/styles/common"
+
+    scripts:
+      all: "../src/assets/scripts/**/*.coffee"
+
+    images:
+      all: "../src/assets/images/**/*.*"
+      path: "../src/assets/images"
+      design:
+        path: "../src/assets/images/design"
+      content:
+        path: "../src/assets/images/content"
+
+    templates:
+      all: "../src/templates/**/*.jade"
+      path: "../src/templates"
+      blocks: 
+        all: "../src/templates/blocks/**/*.jade"
+        path: "../src/templates/blocks"
+      pages: 
+        all: "../src/templates/pages/**/*.jade"
+        path: "../src/templates/pages"
+
+  built:
+    path: "../built/"
+
+    styles:
+      all: "../built/assets/styles/**/*.css"
+      bootstrap: "../built/assets/libs/bootstrap/dist/css/bootstrap.min.css"
+      bootstraptheme: "../built/assets/libs/bootstrap/dist/css/bootstrap-theme.min.css"
+      path: "../built/assets/styles"
+      file: "main.css"
+
+    scripts:
+      all: "../built/assets/scripts/**/*.js"
+      jquery: "../built/assets/libs/jquery/dist/jquery.min.js"
+      bootstrap: "../built/assets/libs/bootstrap/dist/js/bootstrap.min.js"
+      cssua: "../built/assets/libs/cssuseragent/cssua.min.js"
+      modernizr:
+        minfile: "../built/assets/libs/modernizr/modernizr.min.js"
+        file: "../built/assets/libs/modernizr/modernizr.js"
+        path: "../built/assets/libs/modernizr"
+      path: "../built/assets/scripts"
+      file: "main.js"
+
+    images:
+      all: "../built/assets/images/**/*.*"
+      path: "../built/assets/images"
+      design: 
+        path: "../built/assets/images/design"
+      content: 
+        path: "../built/assets/images/content"
+
+    fonts:
+      all: "../built/assets/fonts/"
+      bootsrap: "../built/assets/libs/bootstrap/dist/fonts/*.*"
+
+    libs:
+      path: '../built/assets/libs/'
+
+    html:
+      all: '../built/**/*.html'
+
+  builder:
+    path: "../builder"
+
+    node_modules: "../builder/node_modules"

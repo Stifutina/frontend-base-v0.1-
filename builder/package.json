@@ -1,0 +1,43 @@
+{
+  "name": "angemo",
+  "version": "0.0.1",
+  "description": "frontend base with angular+node+gulp+express+mongo",
+  "main": "gulpfile.js",
+  "dependencies": {},
+  "devDependencies": {
+    "bower": "^1.3.12",
+    "gulp": "*",
+    "gulp-autoprefixer": "^1.0.1",
+    "gulp-bower": "0.0.7",
+    "gulp-jshint": "*",
+    "gulp-notify": "*",
+    "gulp-livereload": "*",
+    "gulp-coffee": "*",
+    "gulp-concat": "^2.6.0",
+    "gulp-jade": "*",
+    "gulp-load-plugins": "^0.7.0",
+    "gulp-minify-css": "^0.3.10",
+    "gulp-nodemon": "*",
+    "gulp-plumber": "*",
+    "gulp-task-listing": "*",
+    "gulp-rename": "^1.2.2",
+    "gulp-stylus": "*",
+    "gulp-uglify": "*",
+    "gulp-util": "*",
+    "body-parser": "*",
+    "gulp.spritesmith": "*",
+    "morgan": "*",
+    "tiny-lr": "*",
+    "jshint-stylish": "*",
+    "js-yaml": "^3.2.2"
+  },
+  "scripts": {
+    "test": "gulp"
+  },
+  "keywords": [
+    "front-end",
+    "gulp",
+    "angular"
+  ],
+  "author": "Phoenix"
+}

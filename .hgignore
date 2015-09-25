@@ -1,0 +1,11 @@
+.idea
+.git
+node_modules
+built/assets/libs/bootstrap/
+built/assets/libs/cssuseragent/
+built/assets/libs/jquery/
+built/assets/libs/modernizr/
+builder/npm-debug.log
+
+#mac os
+.DS_Store

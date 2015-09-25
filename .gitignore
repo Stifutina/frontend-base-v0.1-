@@ -1,0 +1,5 @@
+node_modules
+built/assets/libs/*
+!built/assets/libs/raphael
+.idea/
+.hg/
