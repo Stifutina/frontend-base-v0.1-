@@ -1,6 +1,7 @@
 # node modules
 fs = require 'fs'
 yaml = require 'js-yaml'
+pngcrush = require 'imagemin-pngcrush'
 
 # gulp modules
 gulp = require 'gulp'
@@ -29,7 +30,7 @@ gulp.task 'html', ->
   .pipe g.notify {message: 'Views refreshed'}
 
 gulp.task 'css', ->
-  gulp.src [config.paths.built.styles.all]
+  gulp.src config.paths.built.styles.path + '/' + config.paths.built.styles.file
   .pipe g.plumber
     errorHandler: consoleErorr
   .pipe g.livereload client
@@ -81,23 +82,21 @@ gulp.task 'stylus', ->
   .pipe g.plumber
     errorHandler: consoleErorr
   .pipe g.stylus()
-  .pipe gulp.dest config.paths.built.styles.path
+  .pipe gulp.dest config.paths.built.styles.path + '/'
   .pipe g.livereload client
   .pipe g.notify {message: 'Stylus done'}
-  gulp.start 'concat-css'
 
-gulp.task 'concat-css', ->
+gulp.task 'concat-css', ['stylus'], ->
   gulp.src [
     config.paths.built.styles.bootstrap,
-    config.paths.built.styles.bootstraptheme,
     config.paths.built.styles.path + '/' + config.paths.built.styles.file
   ]
   .pipe g.plumber
     errorHandler: consoleErorr
   .pipe g.concat(config.paths.built.styles.file)
-  .pipe gulp.dest config.paths.built.styles.path
+  .pipe gulp.dest config.paths.built.styles.path + '/'
 
-gulp.task 'concat-js', ->
+gulp.task 'concat-js', ['coffee'], ->
   gulp.src config.paths.built.scripts.modernizr.file
   .pipe g.plumber
     errorHandler: consoleErorr
@@ -110,6 +109,7 @@ gulp.task 'concat-js', ->
     config.paths.built.scripts.jquery,
     config.paths.built.scripts.bootstrap,
     config.paths.built.scripts.cssua,
+    config.paths.built.scripts.typed,
     config.paths.built.scripts.path + '/' + config.paths.built.scripts.file
   ]
   .pipe g.plumber
@@ -127,6 +127,7 @@ gulp.task 'jade', ->
     errorHandler: consoleErorr
   .pipe g.jade
     pretty: false
+    locals: {version: '0.0.1'}
   .pipe gulp.dest config.paths.built.path
 
 gulp.task 'autoprefixer', ->
@@ -139,7 +140,7 @@ gulp.task 'fonts', ->
   .pipe gulp.dest config.paths.built.fonts.all
 
 
-gulp.task 'scripts:min', ->
+gulp.task 'scripts:min', ['concat-js'], ->
   gulp.src config.paths.built.scripts.path + '/' + config.paths.built.scripts.file
   .pipe g.plumber
     errorHandler: consoleErorr
@@ -147,7 +148,8 @@ gulp.task 'scripts:min', ->
   .pipe g.rename({extname: '.min.js'})
   .pipe gulp.dest config.paths.built.scripts.path
 
-gulp.task 'styles:min', ->
+
+gulp.task 'styles:min', ['concat-css'], ->
   gulp.src config.paths.built.styles.path + '/' + config.paths.built.styles.file
   .pipe g.plumber
     errorHandler: consoleErorr
@@ -163,8 +165,7 @@ gulp.task 'live', ->
 gulp.task 'watch', ->
   gulp.watch config.paths.src.scripts.all, ['coffee']
   gulp.watch config.paths.built.scripts.path+'/'+config.paths.built.scripts.file, ['scripts:min']
-  gulp.watch config.paths.src.styles.all, ['stylus']
-  gulp.watch config.paths.built.styles.path+'/'+config.paths.built.styles.file, ['styles:min']
+  gulp.watch [config.paths.src.styles.parts.blocks, config.paths.src.styles.parts.common, config.paths.src.styles.parts.helpers], ['styles:min']
   gulp.watch config.paths.src.images.all, ['images']
   gulp.watch config.paths.src.sprites.images.all, ['sprite']
   gulp.watch config.paths.src.templates.all, ['jade']
@@ -173,7 +174,7 @@ gulp.task 'watch', ->
 
 
 
-gulp.task 'default', ['bower', 'sprite', 'css', 'lint', 'stylus', 'coffee', 'concat-css', 'concat-js', 'fonts', 'images', 'html', 'jade', 'live']
+gulp.task 'default', ['bower', 'sprite', 'css', 'lint', 'styles:min', 'scripts:min', 'fonts', 'images', 'html', 'jade']
 
 
 gulp.task 'dev', ['default', 'watch']
