@@ -2,7 +2,7 @@ doctype html
 html
     - var title = 'TITLE'
     include ../blocks/head
-    body(style="background: #fff; font-size: 0;")
+    body
         <!--[if lt IE 7]>
         <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
@@ -12,9 +12,15 @@ html
                 br
                 | Here are the
                 a(href="http://www.enable-javascript.com", target="_blank") instructions how to enable JavaScript in your web browser
+
+        <!--BEGIN MAIN CONTENT-->
         main
+            <!--BEGIN FIRST BLOCK-->
             div#FirstBlock.blockWindow
                 div.FirstBlock__element--modifier
                     span Base frontend
+
+            <!--END FIRST BLOCK-->
+        <!--END MAIN CONTENT-->
 
 include ../blocks/scripts

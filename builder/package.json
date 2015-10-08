@@ -1,7 +1,7 @@
 {
-  "name": "angemo",
+  "name": "Fast_Base_for_layout",
   "version": "0.0.1",
-  "description": "frontend base with angular+node+gulp+express+mongo",
+  "description": "fast frontend base",
   "main": "gulpfile.js",
   "dependencies": {},
   "devDependencies": {
@@ -36,8 +36,7 @@
   },
   "keywords": [
     "front-end",
-    "gulp",
-    "angular"
+    "gulp"
   ],
   "author": "Phoenix"
 }

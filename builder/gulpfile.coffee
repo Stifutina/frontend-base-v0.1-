@@ -1,7 +1,6 @@
 # node modules
 fs = require 'fs'
 yaml = require 'js-yaml'
-pngcrush = require 'imagemin-pngcrush'
 
 # gulp modules
 gulp = require 'gulp'
@@ -71,7 +70,6 @@ gulp.task 'coffee', ->
   .pipe g.coffee
     bare: true
   .pipe gulp.dest config.paths.built.scripts.path
-  gulp.start 'concat-js'
 
 gulp.task 'vendor', ->
   gulp.src config.paths.src.scripts.vendor.all
@@ -88,34 +86,12 @@ gulp.task 'stylus', ->
 
 gulp.task 'concat-css', ['stylus'], ->
   gulp.src [
-    config.paths.built.styles.bootstrap,
     config.paths.built.styles.path + '/' + config.paths.built.styles.file
   ]
   .pipe g.plumber
     errorHandler: consoleErorr
   .pipe g.concat(config.paths.built.styles.file)
   .pipe gulp.dest config.paths.built.styles.path + '/'
-
-gulp.task 'concat-js', ['coffee'], ->
-  gulp.src config.paths.built.scripts.modernizr.file
-  .pipe g.plumber
-    errorHandler: consoleErorr
-  .pipe g.uglify()
-  .pipe g.rename({extname: '.min.js'})
-  .pipe gulp.dest config.paths.built.scripts.modernizr.path
-
-  gulp.src [
-    config.paths.built.scripts.modernizr.minfile,
-    config.paths.built.scripts.jquery,
-    config.paths.built.scripts.bootstrap,
-    config.paths.built.scripts.cssua,
-    config.paths.built.scripts.typed,
-    config.paths.built.scripts.path + '/' + config.paths.built.scripts.file
-  ]
-  .pipe g.plumber
-    errorHandler: consoleErorr
-  .pipe g.concat(config.paths.built.scripts.file)
-  .pipe gulp.dest config.paths.built.scripts.path
 
 gulp.task 'images', ->
   gulp.src [config.paths.src.images.all, '!'+config.paths.src.sprites.images.all]
@@ -126,7 +102,7 @@ gulp.task 'jade', ->
   .pipe g.plumber
     errorHandler: consoleErorr
   .pipe g.jade
-    pretty: false
+    pretty: true
     locals: {version: '0.0.1'}
   .pipe gulp.dest config.paths.built.path
 
@@ -140,7 +116,7 @@ gulp.task 'fonts', ->
   .pipe gulp.dest config.paths.built.fonts.all
 
 
-gulp.task 'scripts:min', ['concat-js'], ->
+gulp.task 'scripts:min', ->
   gulp.src config.paths.built.scripts.path + '/' + config.paths.built.scripts.file
   .pipe g.plumber
     errorHandler: consoleErorr
