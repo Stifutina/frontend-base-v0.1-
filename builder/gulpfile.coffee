@@ -44,13 +44,13 @@ gulp.task 'lint', ->
   .pipe g.notify {message: 'Lint done'}
 
 gulp.task 'sprite', ->
-  spriteData = gulp.src config.paths.src.sprites.images.all
+  spriteData = gulp.src config.paths.src.sprites.images.design.all
   .pipe g.plumber
     errorHandler: consoleErorr
   .pipe g.spritesmith
     imgName: 'sprite.png'
-    cssName: 'sprite.styl'
-    padding: 2
+    cssName: 'sprite-design.styl'
+    padding: 10
     cssFormat: 'stylus'
     algorithm: 'binary-tree'
     cssTemplate: 'stylus.template.mustache'
@@ -59,6 +59,24 @@ gulp.task 'sprite', ->
       return
 
   spriteData.img.pipe(gulp.dest(config.paths.built.images.design.path));
+  spriteData.css.pipe(gulp.dest(config.paths.src.sprites.style));
+
+
+  spriteData = gulp.src config.paths.src.sprites.images.content.all
+  .pipe g.plumber
+    errorHandler: consoleErorr
+  .pipe g.spritesmith
+    imgName: 'sprite.png'
+    cssName: 'sprite-content.styl'
+    padding: 2
+    cssFormat: 'stylus'
+    algorithm: 'binary-tree'
+    cssTemplate: 'stylus.template.mustache'
+    cssVarMap: (sprite) ->
+      sprite.name = 's-' + sprite.name
+      return
+
+  spriteData.img.pipe(gulp.dest(config.paths.built.images.content.path));
   spriteData.css.pipe(gulp.dest(config.paths.src.sprites.style));
 
   return
@@ -76,7 +94,10 @@ gulp.task 'vendor', ->
   .pipe gulp.dest config.paths.built.scripts.vendor.path
 
 gulp.task 'stylus', ->
-  gulp.src config.paths.src.styles.main
+  gulp.src [
+    config.paths.src.styles.main,
+    config.paths.src.styles.pages
+  ]
   .pipe g.plumber
     errorHandler: consoleErorr
   .pipe g.stylus()
@@ -84,17 +105,8 @@ gulp.task 'stylus', ->
   .pipe g.livereload client
   .pipe g.notify {message: 'Stylus done'}
 
-gulp.task 'concat-css', ['stylus'], ->
-  gulp.src [
-    config.paths.built.styles.path + '/' + config.paths.built.styles.file
-  ]
-  .pipe g.plumber
-    errorHandler: consoleErorr
-  .pipe g.concat(config.paths.built.styles.file)
-  .pipe gulp.dest config.paths.built.styles.path + '/'
-
 gulp.task 'images', ->
-  gulp.src [config.paths.src.images.all, '!'+config.paths.src.sprites.images.all]
+  gulp.src [config.paths.src.images.all]
   .pipe gulp.dest config.paths.built.images.path
 
 gulp.task 'jade', ->
@@ -125,13 +137,16 @@ gulp.task 'scripts:min', ->
   .pipe gulp.dest config.paths.built.scripts.path
 
 
-gulp.task 'styles:min', ['concat-css'], ->
-  gulp.src config.paths.built.styles.path + '/' + config.paths.built.styles.file
+gulp.task 'styles:min', ['stylus'], ->
+  gulp.src [
+    config.paths.built.styles.path + '/' + config.paths.built.styles.file,
+    config.paths.built.styles.path + '/*.css'
+  ]
   .pipe g.plumber
     errorHandler: consoleErorr
   .pipe g.minifyCss()
   .pipe g.rename({extname: '.min.css'})
-  .pipe gulp.dest config.paths.built.styles.path
+  .pipe gulp.dest config.paths.built.styles.minimized
 
 gulp.task 'live', ->
   client.listen lr_port, (err)->
@@ -143,7 +158,7 @@ gulp.task 'watch', ->
   gulp.watch config.paths.built.scripts.path+'/'+config.paths.built.scripts.file, ['scripts:min']
   gulp.watch [config.paths.src.styles.parts.blocks, config.paths.src.styles.parts.common, config.paths.src.styles.parts.helpers], ['styles:min']
   gulp.watch config.paths.src.images.all, ['images']
-  gulp.watch config.paths.src.sprites.images.all, ['sprite']
+  gulp.watch [config.paths.src.sprites.images.design.all, config.paths.src.sprites.images.content.all], ['sprite']
   gulp.watch config.paths.src.templates.all, ['jade']
 
   return
@@ -153,7 +168,7 @@ gulp.task 'watch', ->
 gulp.task 'default', ['bower', 'sprite', 'css', 'lint', 'styles:min', 'scripts:min', 'fonts', 'images', 'html', 'jade']
 
 
-gulp.task 'dev', ['default', 'watch']
+gulp.task 'dev', ['default', 'live', 'watch']
 
 
 gulp.task 'minify', ['scripts:min', 'styles:min']

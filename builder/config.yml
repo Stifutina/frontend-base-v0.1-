@@ -4,7 +4,8 @@ paths:
 
     styles:
       all : "../src/assets/styles/**/*.styl"
-      main: "../src/assets/styles/main.styl"
+      main: "../src/assets/styles/all.styl"
+      pages: "../src/assets/styles/*.styl"
       parts:
         blocks: "../src/assets/styles/blocks/*.styl"
         common: "../src/assets/styles/common/*.styl"
@@ -12,9 +13,13 @@ paths:
       path: "../src/assets/styles"
 
     sprites:
-      images: 
-        all: "../src/assets/images/design/sprite/*"
-        path: "../src/assets/images/design/sprite"
+      images:
+        design:
+          all: "../src/assets/images/design/src/*"
+          path: "../src/assets/images/design/src"
+        content:
+          all: "../src/assets/images/content/src/*"
+          path: "../src/assets/images/content/src"
       style: "../src/assets/styles/common"
 
     scripts:
@@ -45,15 +50,15 @@ paths:
       all: "../built/assets/styles/**/*.css"
       bootstrap: "../built/assets/libs/bootstrap/dist/css/bootstrap.min.css"
       bootstraptheme: "../built/assets/libs/bootstrap/dist/css/bootstrap-theme.min.css"
-      path: "../built/assets/styles"
-      file: "main.css"
+      path: "../built/assets/styles/src"
+      minimized: "../built/assets/styles/minimized"
+      file: "all.css"
 
     scripts:
       all: "../built/assets/scripts/**/*.js"
       jquery: "../built/assets/libs/jquery/dist/jquery.min.js"
       bootstrap: "../built/assets/libs/bootstrap/dist/js/bootstrap.min.js"
       cssua: "../built/assets/libs/cssuseragent/cssua.min.js"
-      typed: "../built/assets/libs/typed.js/dist/typed.min.js"
       modernizr:
         minfile: "../built/assets/libs/modernizr/modernizr.min.js"
         file: "../built/assets/libs/modernizr/modernizr.js"
@@ -66,7 +71,7 @@ paths:
       path: "../built/assets/images"
       design: 
         path: "../built/assets/images/design"
-      content: 
+      content:
         path: "../built/assets/images/content"
 
     fonts:
