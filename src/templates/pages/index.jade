@@ -1,20 +1,18 @@
 doctype html
 html
-    - var title = 'TITLE'
+    - var title = 'Onix'
     include ../blocks/head
-    body(style="background: #fff; font-size: 0;")
-        <!--[if lt IE 7]>
-        <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-        <![endif]-->
-        noscript For full functionality of this website it is necessary to
-            strong
-                | enable JavaScript
-                br
-                | Here are the
-                a(href="http://www.enable-javascript.com", target="_blank") instructions how to enable JavaScript in your web browser
+    <!--BEGIN LOAD STYLES-->
+    link(async href='assets/styles/minimized/all.min.css', rel='stylesheet' type='text/css')
+    <!--END LOAD STYLES-->
+    body
+        - var headerAdditionalClass = 'headerBlock'
+        include ../blocks/header
         main
-            div#FirstBlock.blockWindow
+            <!--BEGIN FIRST BLOCK-->
+            div#FirstBlock.FirstBlock--main.container-fluid
                 div.FirstBlock__element--modifier
                     span Base frontend
 
+        include ../blocks/footer
 include ../blocks/scripts

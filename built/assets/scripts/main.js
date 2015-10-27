@@ -19,116 +19,28 @@ w.exec(b)?(a.mobile=RegExp.$1,s.exec(b)&&(delete a[a.mobile],a.blackberry=a.vers
 10>+a.ie?"7.5":"8.0",delete a.windows_nt}else if(a.gecko||a.firefox)a.gecko=a.rv;a.rv&&delete a.rv;a.version&&delete a.version;return a},format:function(b){var d="",a;for(a in b)if(a&&b.hasOwnProperty(a)){var c=a,e=b[a],c=c.split(".").join("-"),g=" ua-"+c;if("string"===typeof e){for(var e=e.split(" ").join("_").split(".").join("-"),f=e.indexOf("-");0<f;)g+=" ua-"+c+"-"+e.substring(0,f),f=e.indexOf("-",f+1);g+=" ua-"+c+"-"+e}d+=g}return d},encode:function(b){var d="",a;for(a in b)a&&b.hasOwnProperty(a)&&
 (d&&(d+="\x26"),d+=encodeURIComponent(a)+"\x3d"+encodeURIComponent(b[a]));return d}};k.userAgent=k.ua=k.parse(l,p);l=k.format(k.ua)+" js";n.className=n.className?n.className.replace(/\bno-js\b/g,"")+l:l.substr(1);return k}(document.documentElement,navigator.userAgent,navigator.standalone);
 
-/*!=================PROJECT CUSTOM SCRIPT================= */
-var createLoader, removeLoader;
+/*!=======MAIN CUSTOM SCRIPT===== */
+'use strict';
+var loadJS;
 
-(createLoader = function() {
-  var angle, bodyElem, bodyFirstChild, head, loaderContainer, loaderCss, loaderElem, loaderStyleElem, not_ie, paper, spin, st;
-  loaderElem = document.createElement('div');
-  loaderContainer = document.createElement('div');
-  loaderStyleElem = document.createElement('style');
-  loaderCss = '.loader{display: block; width: 100%; height: 100%; position: fixed; top: 0px; left: 0px; z-index: 99999; background: none repeat scroll 0% 0% #DEEAF6} .loader-container{position:relative;display:block;width:120px;height:120px;} .content-progress-loading{height: 100%;overflow: hidden;position: absolute;top: 0;width: 100%}';
-  not_ie = loaderElem.classList;
-  if (not_ie) {
-    loaderElem.classList.add('loader');
-  } else {
-    loaderElem.className += ' loader';
-  }
-  loaderElem.appendChild(loaderContainer);
-  if (not_ie) {
-    loaderContainer.classList.add('loader-container');
-  } else {
-    loaderContainer.className += ' loader-container';
-  }
-  loaderStyleElem.type = 'text/css';
-  if (loaderStyleElem.stylesheet) {
-    loaderStyleElem.styleSheet.cssText = loaderCss;
-  } else {
-    loaderStyleElem.appendChild(document.createTextNode(loaderCss));
-  }
-  head = document.head || document.getElementsByTagName('head')[0];
-  head.appendChild(loaderStyleElem);
-  loaderContainer.style.left = ((window.innerWidth - 120) / 2) + 'px';
-  loaderContainer.style.top = ((window.innerHeight - 120) / 2) + 'px';
-  paper = Raphael(loaderContainer, 0, 0, 120, 120);
-  paper.setSize(120, 120);
-  st = paper.set();
-  angle = 0;
-  while (angle < 360) {
-    st.push(paper.circle(60, 60, 1).attr({
-      fill: "black",
-      stroke: 'none',
-      opacity: 0.2,
-      r: 3
-    }).animate({
-      cx: 60 + (50 * Math.cos(angle * Math.PI / 180)),
-      cy: 60 + (50 * Math.sin(angle * Math.PI / 180)),
-      r: 10,
-      fill: '#15A6D5'
-    }, 500, 'backIn'));
-    angle += 30;
-  }
-  spin = void 0;
-  st.forEach(function(el) {
-    var time;
-    spin = Raphael.animation({
-      "0%": {
-        opacity: 0.2,
-        r: 3
-      },
-      "50%": {
-        opacity: 0.75,
-        r: 10
-      },
-      "100%": {
-        opacity: 0.2,
-        r: 3
-      }
-    }, 1200, '>').repeat(Infinity);
-    time = setTimeout(function() {
-      el.attr({
-        opacity: 0.2,
-        r: 3
-      }).animate(spin);
-    }, (el.id + 1) * 100);
-  });
-  bodyElem = document.getElementsByTagName('BODY')[0];
-  if (not_ie) {
-    bodyElem.classList.add('content-progress-loading');
-  } else {
-    bodyElem.className += ' content-progress-loading';
-  }
-  bodyFirstChild = bodyElem.firstElementChild;
-  bodyElem.insertBefore(loaderElem, bodyFirstChild);
-  return loaderElem;
-})();
+window.onload = function() {
 
-removeLoader = function() {
-  var bodyElem, loaderElem;
-  bodyElem = document.getElementsByTagName('BODY')[0];
-  loaderElem = bodyElem.getElementsByClassName('loader')[0];
-  if (loaderElem !== void 0) {
-    bodyElem.removeChild(loaderElem);
-    bodyElem.style = '';
-  }
-  if (bodyElem.classList) {
-    bodyElem.classList.remove('content-progress-loading');
-  } else {
-    bodyElem.className = bodyElem.className.replace('content-progress-loading', '');
-  }
+  /*! call jQuery methods for layout effects */
+  $(document).layoutModule();
   return true;
 };
 
-jQuery(document).ready(function() {
-  'use strict';
-  $(this).controllerModule();
-  return true;
-});
-
-window.onload = function() {
-  $(document).layoutModule();
-  removeLoader();
-  return true;
+loadJS = function(src, cb) {
+  var ref, script;
+  ref = window.document.getElementsByTagName("script")[0];
+  script = window.document.createElement("script");
+  script.src = src;
+  script.async = true;
+  ref.parentNode.insertBefore(script, ref);
+  if (cb && typeof cb === "function") {
+    script.onload = cb;
+  }
+  return script;
 };
 
 
@@ -200,34 +112,6 @@ window.onload = function() {
     }
   };
   return $.fn.layoutModule = function(method) {
-    if (methods[method]) {
-      return methods[method].apply(this, Array.prototype.slice.call(arguments, 1));
-    } else if (typeof method === 'object' || !method) {
-      return methods.init.apply(this, arguments);
-    } else {
-      return $.error('No such method');
-    }
-  };
-})(jQuery);
-
-
-/*!Controller module */
-
-(function($) {
-  'use strict';
-  var methods, variables;
-  variables = {
-    variable1: true
-  };
-  methods = {
-    init: function(options) {
-      $.extend(variables, options, {
-        element: this
-      });
-      return this;
-    }
-  };
-  return $.fn.controllerModule = function(method) {
     if (methods[method]) {
       return methods[method].apply(this, Array.prototype.slice.call(arguments, 1));
     } else if (typeof method === 'object' || !method) {
