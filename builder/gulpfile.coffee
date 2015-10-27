@@ -164,11 +164,11 @@ gulp.task 'watch', ->
   return
 
 
-
 gulp.task 'default', ['bower', 'sprite', 'css', 'lint', 'styles:min', 'scripts:min', 'fonts', 'images', 'html', 'jade']
 
 
-gulp.task 'dev', ['default', 'live', 'watch']
+gulp.task 'dev', ['default', 'live'], ->
+  gulp.start 'watch'
 
 
 gulp.task 'minify', ['scripts:min', 'styles:min']
